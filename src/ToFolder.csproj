@@ -6,7 +6,7 @@
 		<ToolCommandName>ToFolder</ToolCommandName>
 
 		<PackageId>ZKEASOFT.ToFolder</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<Authors>ZKEASOFT</Authors>
 		<Description>Move files to folder by year</Description>
 

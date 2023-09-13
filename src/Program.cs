@@ -22,17 +22,19 @@ namespace ToFolder
             var files = rootFolder.GetFiles("*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
-                string year = file.LastWriteTime.Year.ToString();
+                DateTime createdOn = file.LastWriteTime;
 
                 var matchResult = NameRegex.Match(file.Name);
                 if (matchResult.Success)
                 {
-                    year = matchResult.Groups[1].Value;
+                    createdOn = new DateTime(int.Parse(matchResult.Groups[1].Value), int.Parse(matchResult.Groups[2].Value), int.Parse(matchResult.Groups[3].Value));
                 }
-                if (IsInFolder(file, year)) continue;
+                string yearMonth = Path.Combine(createdOn.ToString("yyyy"), createdOn.ToString("MMM"));
+                var subdirectory = rootFolder.CreateSubdirectory(yearMonth);
+                if (IsInFolder(file, subdirectory.FullName)) continue;
 
-                var yearFolder = rootFolder.CreateSubdirectory(year);
-                string targetFileName = Path.Combine(yearFolder.FullName, file.Name);
+
+                string targetFileName = Path.Combine(subdirectory.FullName, file.Name);
                 if (!File.Exists(targetFileName))
                 {
                     Console.WriteLine("Move to: {0}", targetFileName);
@@ -46,7 +48,7 @@ namespace ToFolder
         }
         static bool IsInFolder(FileInfo file, string year)
         {
-            return file.DirectoryName.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Contains(year);
+            return file.DirectoryName.StartsWith(year);
         }
     }
 }

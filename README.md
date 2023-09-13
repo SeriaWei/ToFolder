@@ -1,4 +1,8 @@
-## Move files to folder by year
+## Move files to folder by year/month
+
+```
+dotnet tool install ZKEASOFT.ToFolder
+```
 
 Move files in the current folder
 ```
